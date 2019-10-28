@@ -1,0 +1,266 @@
+  
+PYGAME ASSIGNMENT ONLINE
+by: Aimee and Callista
+ 
+1. What is pygame? Can you modify its source code?
+
+Pygame is a free and open source python programming language library which allows us to create  multimedia applications like games. It is highly portable and can run on many platforms and operating systems.
+Yes it is possible to modify the source code however it is not a good idea.
+
+
+2. What is Rectangle? How do you create a rectangle? (give sample code)
+
+It is  the rectangular area that we define on a surface
+
+Sample Code:
+
+import pygame, sys
+from pygame.locals import *
+
+def start():
+    pygame.init()
+    screen = pygame.display.set_mode((500,400),0,32)
+    screen.fill((255,255,255))
+    pygame.draw.rect(screen,(0,0,255),(200,150,100,50))
+    while True:
+        for event in pygame.event.get():
+            if event.type== Q :
+                pygame.quit()
+                sys.exit()
+        pygame.display.update()
+start()
+
+
+3. Can you play music with pygame? (give sample code)
+
+Yes it is possible to play music with pygame.
+ 
+Sample Code:
+
+pygame.mixer.pre_init(44100, -16, 2, 2048)
+pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load('music_01.mp3')
+pygame.mixer.music.play(-1)
+
+
+4. A lot of games involve timer in its gameplay. How do you create a timer from round start to round finish? (give sample code)
+
+Sample Code:
+
+import pygame
+pygame.init()
+screen = pygame.display.set_mode((128, 128))
+clock = pygame.time.Clock()
+
+counter, text = 10, '10'.rjust(3)
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+font = pygame.font.SysFont('Consolas', 30)
+
+while True:
+    for e in pygame.event.get():
+        if e.type == pygame.USEREVENT: 
+            counter -= 1
+            text = str(counter).rjust(3) if counter > 0 else 'boom!'
+        if e.type == pygame.QUIT: break
+    else:
+        screen.fill((255, 255, 255))
+        screen.blit(font.render(text, True, (0, 0, 0)), (32, 48))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
+    break
+
+
+5. What is sprite and groups? When do you use it? (give sample code)
+
+Sprite:
+- It is a module written in Python which includes some higher-level classes to manage your game objects better. Using this module will also allow you to run your game faster.
+- When to use:
+     o   When you have many instances of an object on the screen at a time
+     o   When an object needs to update themselves automatically and have dynamic movements
+     o   When you need to track an object closely (collision detection)
+Groups:
+It is a class that basically stores Sprites and has many of the functions that are similar to that of the sprite module as well as some additional functions such as len() and many others.
+
+Sample Code:
+
+import pygame
+from pygame.sprite import Group
+
+def run_game():
+    pygame.init()
+    bullets = Group()
+    aliens= Group()
+    
+    while True:
+        gf.check_events(aliens, bullets)
+        
+        if stats.game_active:
+            dp.update()
+            gf.update_bullets(aliens, bullets)
+            gf.update_aliens(aliens, bullets)
+
+        gf.update_screen(aliens, bullets)
+
+run_game()
+
+ 
+6. What is collision detection? Why is it important? (give sample code)
+
+It is the term used in algorithms to detect when one object comes in contact with another object.Collision detection calculates the pair of objects involved, as well as the area, depth, and angle of contact/penetration.  It is essential, especially in games, to generate a realistic output making the experience more realistic. 
+
+Sample code:
+
+for wall in walls:
+            if self.rect.colliderect(wall.rect):
+                if dx > 0: # Moving right; Hit the left side of the wall
+                    self.rect.right = wall.rect.left
+                if dx < 0: # Moving left; Hit the right side of the wall
+                    self.rect.left = wall.rect.right
+                if dy > 0: # Moving down; Hit the top side of the wall
+                    self.rect.bottom = wall.rect.top
+                if dy < 0: # Moving up; Hit the bottom side of the wall
+                    self.rect.top = wall.rect.bottom
+ 
+ 
+7. How do you display image in pygame? What is the function of blit? (give sample code)
+
+Create a display surface object using display.set_mode() method of pygame.
+Create an Image surface object using image.load() method of pygame.
+Copy the image surface object to the display surface object using blit() method of pygame display surface object.
+Show the display surface object on the pygame window using display.update()method of pygame.
+
+Blit: This keyword is used to draw a surface on another surface.
+
+Sample Code:
+
+def __init__(self, ai_settings, screen):
+        self.screen = screen
+        self.ai_settings = ai_settings
+        self.image = pygame.image.load('deadpool.bmp')
+        self.rect = self.image.get_rect()
+        self.screen_rect = screen.get_rect()
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
+        self.center = float(self.rect.centerx)
+        
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
+
+8. How do you tell a bunch of sprites to update and draw at (almost) the same time? (give sample code)
+
+Sample Code:
+
+class Alien:
+
+     def update(self):
+         self.rect.x += 1 # small move
+
+aliens_group = pygame.sprite.Group()
+
+alien_1 = Alien()
+alien_2 = Alien()
+
+aliens_group.app(alien_1, alien_2)
+
+while True:
+   aliens_group.update()
+   aliens_group.draw()
+
+
+10. What is game physics? Why is it important?
+
+Game physics is involve the laws of physics into a simulation such as an animation or game, most often in 3D graphics, to make it more realistic.
+
+ 
+11. How do you display text in pygame? (give sample code)
+
+Sample Code:
+
+import pygame
+
+pygame.init()
+white = (255, 255, 255)
+green = (0, 255, 0)
+blue = (0, 0, 128)
+X = 400
+Y = 400
+display_surface = pygame.display.set_mode((X, Y ))
+pygame.display.set_caption('Show Text')
+font = pygame.font.Font('freesansbold.ttf', 32)
+text = font.render('GeeksForGeeks', True, green, blue)
+textRect = text.get_rect() 
+textRect.center = (X // 2, Y // 2)
+
+while True :
+    display_surface.fill(white)
+    display_surface.blit(text, textRect)
+    for event in pygame.event.get() :
+        if event.type == pygame.QUIT :
+            pygame.quit()
+            quit()
+        pygame.display.update() 
+
+
+12. How do you move a sprite / image in pygame? (give sample code)
+
+Sample Code:
+
+screen = pygame.display.set_mode((640, 480))
+player = pygame.image.load('player.bmp').convert()
+background = pygame.image.load('background.bmp').convert()
+screen.blit(background, (0, 0))
+objects = []
+for x in range(10):                    
+     o = GameObject(player, x*40, x)
+     objects.append(o)
+while 1:
+     for event in pygame.event.get():
+         if event.type in (QUIT, KEYDOWN):
+             sys.exit()
+     for o in objects:
+         screen.blit(background, o.pos, o.pos)
+     for o in objects:
+         o.move()
+         screen.blit(o.image, o.pos)
+     pygame.display.update()
+     pygame.time.delay(100)
+ 
+
+13. How do you fill a color of a surface? (give sample code)
+
+Sample Code:
+
+pygame.init()
+screen = pygame.display.set_mode((500,400),0,32)
+screen.fill((255,255,255))
+while True:
+pygame.display.update()
+ 
+ 
+14. You have a player sprite. How do you randomize its position in a screen? (give sample code)
+
+Sample Code:
+
+import pygame
+from pygame.sprite import Sprite
+from random import randint
+
+class Coin(Sprite):
+    
+    def __init__(self, game):
+        super().__init__()
+        self.screen = game.screen
+        self.screen_rect = game.screen.get_rect()
+        
+        self.image = pygame.image.load("retro_coin.png")
+        self.rect = self.image.get_rect()
+
+        self.rect.x = randint(0, self.screen_rect.right-self.rect.width)
+        self.rect.y = randint(0, self.screen_rect.bottom-self.rect.height)
+
+15. Did you notice there are no number 9? (Y/N)
+
+Not exactly.
